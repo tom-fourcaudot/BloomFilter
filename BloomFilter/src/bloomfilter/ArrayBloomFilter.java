@@ -5,7 +5,7 @@
 package bloomfilter;
 
 /**
- *
+ * The array version of the bloom version
  * @author tfourcaudot
  */
 public class ArrayBloomFilter extends AbstractBloomFilter {
@@ -13,6 +13,11 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
     // This is protected for the tests
     protected byte[] container;
 
+    /**
+     * Constructor of ArrayBloomFilter
+     * @param size the size of the filter
+     * @param k the number of hash functions
+     */
     public ArrayBloomFilter(int size, int k) {
         super(size, k);
         container = new byte[size];
@@ -21,6 +26,10 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
         }
     }
 
+    /**
+     * Add an element in the filter
+     * @param element The element to add 
+     */
     @Override
     public void add(int element) {
         for (int i = 0; i < k; i++) {
@@ -29,6 +38,11 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
         }
     }
 
+    /**
+     * Verify if an element is in the filter
+     * @param element The element we look for
+     * @return True if the element in the filter, else instead
+     */
     @Override
     public boolean contains(int element) {
         byte inside = 1;
