@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class LinkListBloomFilter extends AbstractBloomFilter {
 
     // protected for test functions
-    protected LinkedList<Byte> container;
+    protected LinkedList<Byte> filter;
 
     /**
      * Construcor of LinkListBloomFilter
@@ -22,9 +22,9 @@ public class LinkListBloomFilter extends AbstractBloomFilter {
      */
     public LinkListBloomFilter(int size, int k) {
         super(size, k);
-        container = new LinkedList<>();
+        filter = new LinkedList<>();
         for (int i = 0; i < size; i++) {
-            container.push((byte)0);
+            filter.push((byte)0);
         }
     }
 
@@ -36,7 +36,7 @@ public class LinkListBloomFilter extends AbstractBloomFilter {
     public void add(int element) {
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            container.set(index, (byte)1);
+            filter.set(index, (byte)1);
         }
     }
 
@@ -50,7 +50,7 @@ public class LinkListBloomFilter extends AbstractBloomFilter {
         byte inside = 1;
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            inside &= container.get(index);
+            inside &= filter.get(index);
         }
         return inside == 1;
     }

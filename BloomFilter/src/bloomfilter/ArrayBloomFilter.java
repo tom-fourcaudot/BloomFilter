@@ -11,7 +11,7 @@ package bloomfilter;
 public class ArrayBloomFilter extends AbstractBloomFilter {
 
     // This is protected for the tests
-    protected byte[] container;
+    protected byte[] filter;
 
     /**
      * Constructor of ArrayBloomFilter
@@ -20,9 +20,9 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
      */
     public ArrayBloomFilter(int size, int k) {
         super(size, k);
-        container = new byte[size];
+        filter = new byte[size];
         for (int i = 0; i < size; i++) {
-            container[i] = 0;
+            filter[i] = 0;
         }
     }
 
@@ -34,7 +34,7 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
     public void add(int element) {
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            container[index] = 1;
+            filter[index] = 1;
         }
     }
 
@@ -48,7 +48,7 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
         byte inside = 1;
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            inside &= container[index];
+            inside &= filter[index];
         }
         return inside == 1;
     }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ArrayListBloomFilter extends AbstractBloomFilter {
 
     // protected for the test
-    protected ArrayList<Byte> container;
+    protected ArrayList<Byte> filter;
     
     /**
      * Contructor of ArrayBloomFilter
@@ -22,9 +22,9 @@ public class ArrayListBloomFilter extends AbstractBloomFilter {
      */
     public ArrayListBloomFilter(int size, int k) {
         super(size, k);
-        container = new ArrayList<>();
+        filter = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            container.add((byte)0);
+            filter.add((byte)0);
         }
     }
     
@@ -36,7 +36,7 @@ public class ArrayListBloomFilter extends AbstractBloomFilter {
     public void add(int element) {
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            container.set(index, (byte)1);
+            filter.set(index, (byte)1);
         }
     }
 
@@ -50,7 +50,7 @@ public class ArrayListBloomFilter extends AbstractBloomFilter {
         byte inside = 1;
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            inside &= container.get(index);
+            inside &= filter.get(index);
         }
         return inside == 1;
     }
