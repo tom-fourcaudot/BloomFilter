@@ -22,5 +22,4 @@ public interface IBloomFilter {
      * @return True if the filter contain the element, False else
      */
     public boolean contains(int element);
-
 }

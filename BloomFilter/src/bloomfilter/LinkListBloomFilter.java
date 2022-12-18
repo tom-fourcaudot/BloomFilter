@@ -20,8 +20,8 @@ public class LinkListBloomFilter extends AbstractBloomFilter {
      * @param size
      * @param k 
      */
-    public LinkListBloomFilter(int size, int k) {
-        super(size, k);
+    public LinkListBloomFilter(int size, int k, int seed) {
+        super(size, k, seed);
         filter = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             filter.push((byte)0);

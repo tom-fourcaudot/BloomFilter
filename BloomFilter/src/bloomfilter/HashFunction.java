@@ -21,12 +21,11 @@ public class HashFunction {
      * Constructor of HashFunction
      * @param size size of the filter we will hash
      */
-    public HashFunction(int size) {
+    public HashFunction(int size, Random r) {
         // Initialize atributes
         this.SIZE = size;
-        Random r = new Random();
-        MULT = r.nextInt(size-1)+1;
-        OFFSET = r.nextInt(size-1)+1;
+        MULT = r.nextInt()+1;
+        OFFSET = r.nextInt()+1;
     }
     
     /**
@@ -35,6 +34,6 @@ public class HashFunction {
      * @return the hashed element
      */
     public int hash(int element) {
-        return Math.abs(((element + SIZE/2)*MULT + OFFSET)%SIZE);
+        return Math.abs(((element + SIZE)*MULT + OFFSET)%SIZE);
     }
 }

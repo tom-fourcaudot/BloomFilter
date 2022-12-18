@@ -4,6 +4,8 @@
  */
 package bloomfilter;
 
+import java.util.Arrays;
+
 /**
  * The array version of the bloom version
  * @author tfourcaudot
@@ -18,8 +20,8 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
      * @param size the size of the filter
      * @param k the number of hash functions
      */
-    public ArrayBloomFilter(int size, int k) {
-        super(size, k);
+    public ArrayBloomFilter(int size, int k, int seed) {
+        super(size, k, seed);
         filter = new byte[size];
         for (int i = 0; i < size; i++) {
             filter[i] = 0;
@@ -45,12 +47,14 @@ public class ArrayBloomFilter extends AbstractBloomFilter {
      */
     @Override
     public boolean contains(int element) {
-        byte inside = 1;
         for (int i = 0; i < k; i++) {
             int index = hashs[i].hash(element);
-            inside &= filter[index];
+            // System.out.println(index);
+            if (filter[index] == 0) {
+                return false;
+            }
         }
-        return inside == 1;
+        return true;
     }
 
 }

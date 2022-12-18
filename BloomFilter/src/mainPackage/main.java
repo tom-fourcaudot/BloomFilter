@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mainPackage;
-import bloomfilter.*;
+
+import Benchmark.Benchmark;
+import Benchmark.CSV;
+import java.util.Random;
 
 /**
  *
@@ -12,23 +15,41 @@ import bloomfilter.*;
 public class main {
 
     public static void main(String[] args) {
-        ArrayBloomFilter filter = new ArrayBloomFilter(1000, 100);
-        filter.add(100);
-        filter.add(500);
-        filter.add(354);
-        filter.add(-534);
-        filter.add(365754);
-        System.out.println(filter.contains(100));
-        System.out.println(filter.contains(654654));
-        System.out.println(filter.contains(453));
-        System.out.println(filter.contains(45342));
-        System.out.println(filter.contains(653));
-        System.out.println(filter.contains(23));
-        System.out.println(filter.contains(745));
-        System.out.println(filter.contains(5786));
-        System.out.println(filter.contains(654654));
-        System.out.println(filter.contains(23472375));
-        System.out.println(filter.contains(75752));
-        System.out.println(filter.contains(5671242));
+        final int N = 10000;
+        final String CSVFileError = "error.csv";
+        final String CSVFileTime = "time.csv";
+        final int[] KTest = {1, 3, 5};
+        final int[] SizeTest = {N, N * 10, N * 100};
+
+        // reset / create CSV files
+        CSV.deleteFile(CSVFileError);
+        CSV.createCSV(CSVFileError);
+        CSV.deleteFile(CSVFileTime);
+        CSV.createCSV(CSVFileTime);
+        // add Header to csv
+        CSV.appendLine(CSVFileError, "M,K,N,error");
+        CSV.appendLine(CSVFileTime, "type,M,K,N,time");
+
+        // Test the time of each
+        Random r = new Random();
+        for (int k : KTest) {
+            for (int s : SizeTest) {
+                int seed = r.nextInt();
+                Benchmark b = new Benchmark(s, k, N, seed);
+                b.BenchAdd();
+                long[] res = b.BenchContains();
+                for (int i = 0; i < 3; i++) {
+                    CSV.appendLine(CSVFileTime, i+","+ s + "," + k + "," + N + "," + res[i]);
+                }
+            }
+        }
+
+        for (int k : KTest) {
+            for (int s : SizeTest) {
+                int seed = r.nextInt();
+                Benchmark b = new Benchmark(s, k, N, seed);
+                CSV.appendLine(CSVFileError, "" + s + "," + k + "," + N + "," + b.benchError());
+            }
+        }
     }
 }

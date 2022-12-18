@@ -20,8 +20,8 @@ public class ArrayListBloomFilter extends AbstractBloomFilter {
      * @param size size of the filter
      * @param k number of hash functions
      */
-    public ArrayListBloomFilter(int size, int k) {
-        super(size, k);
+    public ArrayListBloomFilter(int size, int k, int seed) {
+        super(size, k, seed);
         filter = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             filter.add((byte)0);
@@ -53,7 +53,6 @@ public class ArrayListBloomFilter extends AbstractBloomFilter {
             inside &= filter.get(index);
         }
         return inside == 1;
-    }
-    
+    }    
     
 }
